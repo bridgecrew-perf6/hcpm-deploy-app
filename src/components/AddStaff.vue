@@ -201,7 +201,6 @@ export default {
 }
 </script>
 <style>
-@import "../assets/scss/_staff.scss";
 .form-label {
   font-weight: 500;
 }
