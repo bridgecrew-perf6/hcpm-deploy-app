@@ -1,19 +1,10 @@
 <template>
-    <div class="w-full bg-gray-100">
+    <div class="w-full bg-gray-100 relative">
+        <DialogAddEmployee></DialogAddEmployee>
+
         <Header></Header>
-        <div
-            class="
-                w-full
-                h-[50px]
-                border-t-[1px]
-                bg-white
-                pl-3
-                font-medium
-                text-base
-                leading-[50px]
-            "
-        >
-            {{namePage}}
+        <div class="w-full h-[50px] border-t-[1px] border-b-[1px] bg-white pl-3 font-medium text-base leading-[50px]">
+            {{ namePage }}
         </div>
         <Project v-if="isProject"></Project>
         <Staff v-if="isStaff" />
@@ -27,6 +18,7 @@ import Header from "./Header.vue";
 import ListStaff from "./ListStaff.vue";
 import Project from "./Project.vue";
 import Staff from "./Staff.vue";
+import DialogAddEmployee from "./DialogAddEmployee.vue";
 import HomeContent from "./HomeContent.vue";
 export default {
     components: {
@@ -35,6 +27,7 @@ export default {
         Staff,
         ListStaff,
         HomeContent,
+        DialogAddEmployee,
     },
     created() {
         this.emitter.on("clickProject", () => {
@@ -62,11 +55,10 @@ export default {
             isListStaff: false,
             isStaff: false,
             isHomeContent: true,
-            namePage:"Khách hàng"
+            namePage: "Khách hàng",
         };
     },
 };
 </script>
 
-<style>
-</style>
+<style></style>

@@ -1,15 +1,17 @@
 <template>
-    <div class="w-full h-[578px] " style="border: 12px solid gray; border-right: none">
+    <div class="w-full h-[578px]" style="border: 12px solid #ffff; border-right: none">
+        <Button></Button> <Search></Search>
         <div class="employee-list scroll h-full bg-white overflow-y-scroll" id="scroll">
             <table border="0" cellspacing="0" cellpadding="0">
                 <thead class="theadRow">
                     <tr>
                         <th></th>
                         <th>Mã nhân viên</th>
-                        <th>Ảnh</th>
                         <th>Tên nhân viên</th>
+                        <th>Ngày sinh</th>
                         <th>Số điện thoại</th>
                         <th>Email</th>
+                        <th>Địa chỉ</th>
                         <th>Ngày vào</th>
                         <th>Tuổi</th>
                         <th>Bộ phận</th>
@@ -17,22 +19,23 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(staff, index) in staffs" :key="staff.id" @dblclick="rowOnDblClick(staff)">
+                    <tr v-for="(employee, name, index) in employees" :key="employee.id" @click="emitter.emit('dblClickOnRow', employee)">
                         <td>
-                            <span><input id="$staff.id" @click="check(index)" type="checkbox" class="checked-box" /> </span>
+                            <span><input @click="check(index)" type="checkbox" class="checked-box" /> </span>
                         </td>
-                        <td>{{ staff.id }}</td>
-                        <td><img class="w-10 h-10 rounded-[100%] mx-auto" :src="staff.imglink" alt="" /></td>
-                        <td>{{ staff.name }}</td>
-                        <td>{{ staff.phone }}</td>
-                        <td>{{ staff.email }}</td>
-                        <td>15/12/2014</td>
-                        <td>{{ staff.age }}</td>
-                        <td>Tester</td>
+                        <td>{{ employee.Code }}</td>
+                        <td>{{ employee.Name }}</td>
+                        <td>{{ employee.DateOfBirth }}</td>
+                        <td>{{ employee.PhoneNumber }}</td>
+                        <td>{{ employee.Email }}</td>
+                        <td>{{ employee.Address }}</td>
+                        <td>{{ employee.StartWork }}</td>
+                        <td>{{ employee.Age }}</td>
+                        <td>{{ employee.Category }}</td>
                         <td style="height: 40px; position: relative">
-                            <p style="text-align: left; padding-left: 0px; color: blue">Sửa</p>
+                            <p style="text-align: left; padding-left: 12px; color: blue">Sửa</p>
                             <button style="" class="btn-more-option" @click="more(index)"></button>
-                            <button @click="del(staff)" class="delete" style="">Xóa</button>
+                            <button @click="del(employee)" class="delete" style="">Xóa</button>
                         </td>
                     </tr>
                 </tbody>
@@ -43,21 +46,35 @@
 
 <script>
 import axios from "axios";
+import Search from "./base/Search.vue";
+import Button from "./base/Button.vue";
 export default {
+    components: {
+        Search,
+        Button,
+    },
     created() {
         this.getData();
     },
     data() {
         return {
-            staffs: [],
+            employees: null,
+            employees2: [],
         };
     },
     methods: {
         getData() {
             var me = this;
-            axios.get("https://61d573892b4f730017a82847.mockapi.io/api/nguyensynam/v1/staff").then(function (res) {
-                me.staffs = res.data;
-            });
+            axios
+                .get("https://nguyensynamtodolist-14-02.herokuapp.com/employee")
+                .then(function (res) {
+                    console.log(res.data.employees);
+                    me.employees = res.data.employees;
+                    console.log(me.employees);
+                })
+                .catch(function (res) {
+                    console.log(res);
+                });
         },
     },
 };
@@ -77,7 +94,7 @@ th {
     border-top: 1px solid rgb(218, 218, 218);
     font-size: 13px;
     height: 40px;
-    z-index: 1;
+    z-index: 30;
     text-align: center;
 }
 tr td {
@@ -86,17 +103,20 @@ tr td {
     text-align: center;
     height: 40px;
 }
+thead {
+    z-index: 90;
+}
 thead th:nth-child(1) {
     width: 42px;
 }
 thead th:nth-child(2) {
-    width: 110px;
+    width: 100px;
 }
 thead th:nth-child(3) {
-    width: 110px;
+    width: 100px;
 }
 thead th:nth-child(4) {
-    width: 170px;
+    width: 130px;
 }
 thead th:nth-child(5) {
     width: 110px;
@@ -108,12 +128,15 @@ thead th:nth-child(7) {
     width: 110px;
 }
 thead th:nth-child(8) {
-    width: 60px;
+    width: 100px;
 }
 thead th:nth-child(9) {
-    width: 120px;
+    width: 60px;
 }
 thead th:nth-child(10) {
+    width: 100px;
+}
+thead th:nth-child(11) {
     width: 80px;
 }
 table {
@@ -135,8 +158,8 @@ tr:nth-child(2n) {
 .theadRow {
     position: -webkit-sticky;
     position: sticky;
-    top: 0;
-    z-index: 5;
+    top: -1px;
+    z-index: 30;
 }
 tr td:hover {
     cursor: pointer;
@@ -145,7 +168,6 @@ tr td:hover {
     width: 30px;
     height: 20px;
     background: url(../assets/images/downward-arrow.png) no-repeat;
-    background-position: -890px -358px;
     margin-left: 10px;
     border: none;
     z-index: 2;
@@ -156,13 +178,13 @@ tr td:hover {
 .delete {
     width: 94px;
     height: 36px;
-    background-color: #eceeef;
+    background-color: rgb(255, 0, 0);
     position: absolute;
     border: 1px solid #c0c0c0;
     z-index: 3;
     bottom: -30px;
     left: -10px;
     border-radius: 4px;
-    display: none;
+    display: block;
 }
 </style>
