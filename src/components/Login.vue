@@ -47,7 +47,7 @@ export default {
             document.getElementById("Login").style.backgroundColor = "#EEEEEB";
         },
         LoginEvent() {
-            window.open("hcpm-app.netlify.app/home", "_self");
+            window.open("/home", "_self");
         },
     },
     data() {
