@@ -22,6 +22,9 @@ export default {};
 * {
     text-align: center;
 }
+#profile{
+    background-color: rgb(255, 0, 0);
+}
 #profile div {
     height: 40px;
     border-bottom: 1px solid #f3f4f2;
@@ -37,3 +40,4 @@ export default {};
     cursor: auto;
 }
 </style>
+    
