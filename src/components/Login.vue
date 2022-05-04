@@ -131,7 +131,7 @@ export default {
             document.getElementById("Login").style.backgroundColor = "#EEEEEB";
         },
         LoginEvent() {
-            window.open("http://localhost:3000/home", "_self");
+            window.open("home", "_self");
         },
     },
     data() {
