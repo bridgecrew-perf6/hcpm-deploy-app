@@ -19,9 +19,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(employee, name, index) in employees" :key="employee.id" @click="emitter.emit('dblClickOnRow', employee)">
+                    <tr v-for="(employee, index) in employees" :key="employee._id" @dblclick="emitter.emit('dblClickOnRow', employee)">
                         <td>
-                            <span><input @click="check(index)" type="checkbox" class="checked-box" /> </span>
+                            <span><input @click="check(employee._id)" type="checkbox" class="checked-box" /> </span>
                         </td>
                         <td>{{ employee.Code }}</td>
                         <td>{{ employee.Name }}</td>
@@ -34,7 +34,7 @@
                         <td>{{ employee.Category }}</td>
                         <td style="height: 40px; position: relative">
                             <p style="text-align: left; padding-left: 12px; color: blue">Sửa</p>
-                            <button style="" class="btn-more-option" @click="more(index)"></button>
+                            <button  @focusout="out(index)" style="" class="btn-more-option" @click="more(index)"></button>
                             <button @click="del(employee)" class="delete" style="">Xóa</button>
                         </td>
                     </tr>
@@ -60,6 +60,7 @@ export default {
         return {
             employees: null,
             employees2: [],
+            num: 0,
         };
     },
     methods: {
@@ -76,6 +77,15 @@ export default {
                     console.log(res);
                 });
         },
+        check(e) {
+            console.log(e);
+        },
+        more(e) {
+            document.getElementsByClassName("delete")[e].style.display = "block";
+        },
+        out(e){
+            document.getElementsByClassName("delete")[e].style.display = "none";
+        }
     },
 };
 </script>
@@ -178,13 +188,13 @@ tr td:hover {
 .delete {
     width: 94px;
     height: 36px;
-    background-color: rgb(255, 0, 0);
+    background-color: rgb(255, 255, 255);
     position: absolute;
     border: 1px solid #c0c0c0;
     z-index: 3;
     bottom: -30px;
-    left: -10px;
+    left: -30px;
     border-radius: 4px;
-    display: block;
+    display: none;
 }
 </style>
