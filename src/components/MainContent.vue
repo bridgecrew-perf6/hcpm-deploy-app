@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full bg-gray-100 relative">
+    <div class="w-full bg-gray-100 relative" id="main">
         <DialogAddEmployee></DialogAddEmployee>
 
         <Header></Header>
@@ -48,6 +48,15 @@ export default {
             this.isProject = false;
             this.isHomeContent = false;
         });
+        this.emitter.on("clickTogle", () => {
+            if (this.num % 2 == 0) {
+                document.getElementById("main").style.width = "1366px";
+                this.num++;
+            } else{
+                document.getElementById("main").style.width = "1141px";
+                this.num++;
+            }
+        });
     },
     data() {
         return {
@@ -56,6 +65,7 @@ export default {
             isStaff: false,
             isHomeContent: true,
             namePage: "Khách hàng",
+            num: 0,
         };
     },
 };

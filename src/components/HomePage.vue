@@ -1,7 +1,7 @@
 <template>
     <div class="w-full h-screen flex relative">
         <!-- <DialogAddEmployee ></DialogAddEmployee> -->
-        <SideBar></SideBar> <MainContent></MainContent>
+        <SideBar></SideBar> <MainContent ></MainContent>
     </div>
 </template>
 

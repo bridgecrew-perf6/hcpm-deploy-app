@@ -1,5 +1,5 @@
 <template>
-    <div v-if="isTogle" class="w-1/6 h-screen border-r-[1px]" style="background-color: #ffff">
+    <div id="sidebar" v-if="isTogle" class="w-[234px] h-screen border-r-[1px]" style="background-color: #ffff ;  width: 235px;">
         <div id="logo" class="cursor-pointer" @click="clickHome">
             <img class="w-[110px] h-[45px] mx-auto mt-2 mb-2" src=".././assets/images/logo.png" alt="" />
         </div>
