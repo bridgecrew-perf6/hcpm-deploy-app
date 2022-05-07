@@ -10,7 +10,7 @@
                 <input placeholder="Tìm kiếm theo tên/mã nhân viên" type="text" class="input-search" />
             </div>
 
-            <button class="btn-reload"></button>
+            <button class="btn-reload" style="margin-right: 28px;"></button>
         </div>
     </div>
 </template>

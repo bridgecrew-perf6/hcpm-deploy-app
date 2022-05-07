@@ -1,9 +1,9 @@
 <template>
     <div class="w-full h-[578px]" style="border: 12px solid #ffff; border-right: none">
         <Button></Button> <Search></Search>
-        <div class="employee-list scroll h-full bg-white overflow-y-scroll" id="scroll">
-            <table border="0" cellspacing="0" cellpadding="0">
-                <thead class="theadRow">
+        <div class="employee-list scroll h-full bg-white overflow-y-scroll" id="scroll" style="width: 1153px">
+            <table border="0" cellspacing="0" cellpadding="0" id="table" style="width: 1125px">
+                <thead class="theadRow" id="thead1" style="width: 1137px">
                     <tr>
                         <th></th>
                         <th>Mã nhân viên</th>
@@ -33,9 +33,9 @@
                         <td>{{ employee.Age }}</td>
                         <td>{{ employee.Category }}</td>
                         <td style="height: 40px; position: relative">
-                            <p style="text-align: left; padding-left: 12px; color: blue">Sửa</p>
-                            <button  @focusout="out(index)" style="" class="btn-more-option" @click="more(index)"></button>
-                            <button @click="del(employee)" class="delete" style="">Xóa</button>
+                            <p class="leading-[40px]" style="text-align: left; padding-left: 12px; color: blue; margin-bottom: 0px">Sửa</p>
+                            <button  style="" class="btn-more-option" @click="more(index)"></button>
+                            <button @focusout="out(index)" @click="del(employee._id)" class="delete" style="">Xóa</button>
                         </td>
                     </tr>
                 </tbody>
@@ -55,12 +55,26 @@ export default {
     },
     created() {
         this.getData();
+        this.emitter.on("clickTogle", () => {
+            if (this.num2 % 2 == 0) {
+                document.getElementById("scroll").style.width = "1366px";
+                document.getElementById("table").style.width = "1338px";
+                document.getElementById("thead1").style.width = "1338px";
+                this.num2++;
+            } else {
+                document.getElementById("scroll").style.width = "1366px";
+                document.getElementById("table").style.width = "1115px";
+                document.getElementById("thead1").style.width = "1115px";
+                this.num2++;
+            }
+        });
     },
     data() {
         return {
             employees: null,
             employees2: [],
             num: 0,
+            num2: 0,
         };
     },
     methods: {
@@ -81,11 +95,28 @@ export default {
             console.log(e);
         },
         more(e) {
-            document.getElementsByClassName("delete")[e].style.display = "block";
+            if (this.num % 2 == 0) {
+                document.getElementsByClassName("delete")[e].style.display = "block";
+                this.num++;
+            } else {
+                document.getElementsByClassName("delete")[e].style.display = "none";
+                this.num++;
+            }
         },
-        out(e){
+        out(e) {
             document.getElementsByClassName("delete")[e].style.display = "none";
-        }
+        },
+        del(e) {
+            var url = "https://nguyensynamtodolist-14-02.herokuapp.com/employee/" + e
+            axios
+                .delete(url)
+                .then(function (res) {
+                    console.log(res)
+                })
+                .catch(function (res) {
+                    console.log(res);
+                });
+        },
     },
 };
 </script>
@@ -117,37 +148,37 @@ thead {
     z-index: 90;
 }
 thead th:nth-child(1) {
-    width: 42px;
+    width: 4%;
 }
 thead th:nth-child(2) {
-    width: 100px;
+    width: 8%;
 }
 thead th:nth-child(3) {
-    width: 100px;
+    width: 13%;
 }
 thead th:nth-child(4) {
-    width: 130px;
+    width: 10%;
 }
 thead th:nth-child(5) {
-    width: 110px;
+    width: 10%;
 }
 thead th:nth-child(6) {
-    width: 210px;
+    width: 16%;
 }
 thead th:nth-child(7) {
-    width: 110px;
+    width: 10%;
 }
 thead th:nth-child(8) {
-    width: 100px;
+    width: 8%;
 }
 thead th:nth-child(9) {
-    width: 60px;
+    width: 5%;
 }
 thead th:nth-child(10) {
-    width: 100px;
+    width: 9%;
 }
 thead th:nth-child(11) {
-    width: 80px;
+    width: 7%;
 }
 table {
     border-left: 1px solid rgb(218, 218, 218);
@@ -183,7 +214,7 @@ tr td:hover {
     z-index: 2;
     position: absolute;
     right: 8px;
-    top: 8px;
+    top: 12px;
 }
 .delete {
     width: 94px;

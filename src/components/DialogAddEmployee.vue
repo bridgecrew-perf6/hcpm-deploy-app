@@ -1,5 +1,5 @@
 <template>
-    <div class="dialogAdd z-40 w-screen h-screen ml-[-16.6%]" id="dialogAdd" v-if="isOpen">
+    <div class="dialogAdd z-40 w-screen h-screen left-[-201px]" id="dialogAdd" v-if="isOpen">
         <div class="dialog-content">
             <div class="header">
                 <div class="name">Thông tin nhân viên</div>
@@ -87,7 +87,7 @@
                 <button class="cancel" id="cancel" @click="closeForm">Hủy</button>
                 <div>
                     <button class="save">Cất</button>
-                    <button @click="emitter.emit('addEmployee')" class="save-add">Thêm</button>
+                    <button @click="emitter.emit('addEmployee',employee)" class="save-add">Thêm</button>
                 </div>
             </div>
         </div>
@@ -100,34 +100,56 @@ import axios from "axios";
 export default {
     created() {
         this.emitter.on("clickBtnAdd", () => {
+            this.employee = {};
             this.isOpen = true;
+            this.isAdd = true;
+            this.isFix = false;
         });
         this.emitter.on("closeForm", () => {
             this.isOpen = false;
         });
         this.emitter.on("dblClickOnRow", (staff) => {
             // console.log(staff);
+            this.isFix = true;
+            this.isAdd = false;
             this.employee = staff;
             console.log(this.employee);
             this.isOpen = true;
         });
-        this.emitter.on("addEmployee", () => {
-            console.log(this.employee);
-            var me = this;
-            axios
-                .post(`https://nguyensynamtodolist-14-02.herokuapp.com/createemployee`, me.employee)
-                                   .then(function (res) {
+        this.emitter.on("addEmployee", (employee) => {
+            console.log(employee);
+            if (this.isAdd) {
+                console.log(this.employee);
+                var me = this;
+                axios
+                    .post(`https://nguyensynamtodolist-14-02.herokuapp.com/createemployee`, me.employee)
+                    .then(function (res) {
                         console.log(res);
                     })
                     .catch(function (res) {
                         console.log(res);
                     });
+            } else {
+                var me = this;
+                var url = `https://nguyensynamtodolist-14-02.herokuapp.com/employee/` + employee._id
+                axios
+                    .put(url, employee)
+                    .then(function (res) {
+                        console.log(res);
+                    })
+                    .catch(function (res) {
+                        console.log(res);
+                    });
+            }
+
         });
     },
     data() {
         return {
             employee: {},
             isOpen: false,
+            isFix: false,
+            isAdd: false,
         };
     },
 };

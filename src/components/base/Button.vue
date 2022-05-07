@@ -2,7 +2,7 @@
       <div class="addEmployee flex justify-between" style="background-color: #fff;">
                       <div class="name-table">NHÂN VIÊN</div>
 
-            <button @click="emitter.emit('clickBtnAdd')" class="add-employee-btn">
+            <button @click="emitter.emit('clickBtnAdd')" class="add-employee-btn" style="margin-right: 28px;">
                   Thêm mới nhân viên
             </button>
       </div>
